@@ -25,7 +25,8 @@ export default function Home() {
     depthmap:{
       links: [],
       selected: null
-    }
+    },
+    compression: 6
   })
 
   let domRef;
@@ -69,6 +70,7 @@ export default function Home() {
 
   const setPreview = (url) => setState(prevState => ({...prevState,preview:url}));
   const setDepthLinks = (links) => setState(prevState => ({...prevState,depthmap:{...prevState.depthmap,links}}))
+  const setCompression = (compression) => setState(prevState => ({...prevState,compression}))
 
 
   const handleImageChange = async (e) => {
@@ -96,6 +98,7 @@ export default function Home() {
   const handleDepthChange = async (link) => {
     const formData = new FormData();
     formData.append("link",link)
+    formData.append("compression",state.compression)
 
     const resp = await fetch("/api/generateObj",{
       method: "POST",
@@ -141,6 +144,14 @@ export default function Home() {
         </div>
       </div>
       <div style={{width:"20%",height:"100%",backgroundColor:"#be9",borderRight:"1px solid black"}}>
+        <div style={{width:"100%"}}>
+          <p style={{textAlign:"center"}}>Compression</p>
+          <input style={{width:"100%"}}
+            type="range" min="1" max="10"
+            value={state.compression}
+            onChange={e => setCompression(e.target.value)}></input>
+
+        </div>
         <div style={{width:"100%",overflowY:"scroll",height:"100%"}}>
           {state.depthmap.links.map( (link,i) => <img key={i} onClick={ () => handleDepthChange(link)} style={{width:"100%"}} src={link} />)}
         </div>

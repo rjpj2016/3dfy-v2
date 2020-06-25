@@ -97,12 +97,12 @@ def generateDepths(image: UploadFile = File(...), token: str = Form(...)):
     }
 
 @app.post("/api/generateObj")
-def generateObj(link: str = Form(...)):
+def generateObj(link: str = Form(...),compression: int = Form(...)):
 
     img = Image.open(link)
     
-    nH = img.height//2
-    nW = img.width//2
+    nH = img.height//compression
+    nW = img.width//compression
     img = img.resize((nW,nH),Image.ANTIALIAS)
     
 
