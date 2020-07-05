@@ -75,7 +75,8 @@ def generateDepths(image: UploadFile = File(...), token: str = Form(...)):
     valid_files = []
 
     for binary_tag in binary_fields:
-        proc = subprocess.Popen(["exiftool","-b","-"+binary_tag,fname],stdout=subprocess.PIPE)
+        print(os.listdir())
+        proc = subprocess.Popen(["./Image-ExifTool-12.01/exiftool","-b","-"+binary_tag,fname],stdout=subprocess.PIPE)
         out = proc.stdout.read()
 
         name = direct+"/"+binary_tag+".jpg"
