@@ -83,7 +83,7 @@ export default function Home() {
     formData.append("image",file)
     formData.append("token","Lmao")
 
-    const resp = await fetch("/api/generateDepths",{
+    const resp = await fetch("http://23.95.246.124:8001/api/generateDepths",{
       method: "POST",
       body: formData,
     })
@@ -100,7 +100,7 @@ export default function Home() {
     formData.append("link",link)
     formData.append("compression",state.compression)
 
-    const resp = await fetch("/api/generateObj",{
+    const resp = await fetch("http://23.95.246.124:8001/api/generateObj",{
       method: "POST",
       body:formData
     })
