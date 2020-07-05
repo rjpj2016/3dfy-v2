@@ -63,7 +63,7 @@ def generateDepths(image: UploadFile = File(...), token: str = Form(...)):
     img = img.resize((h,h),Image.ANTIALIAS)
     img.save(direct+"/tex.jpg")
 
-    proc = subprocess.Popen(["exiftool",fname],stdout=subprocess.PIPE)
+    proc = subprocess.Popen(["./Image-ExifTool-12.01/exiftool",fname],stdout=subprocess.PIPE)
     out = proc.stdout.read().decode()
 
     out_lines = out.split("\n")

@@ -1,0 +1,2 @@
+/api http://23.95.246.124:8001/api 200!
+/uploads/* http://23.95.246.124:8001/uploads/:splat 200!
