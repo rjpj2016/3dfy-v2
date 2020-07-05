@@ -1,2 +1,2 @@
-/api/* http://23.95.246.124:8001/api/:splat 200!
+/api/generateDepths http://23.95.246.124:8001/api/generateDepths 200!
 /uploads/* http://23.95.246.124:8001/uploads/:splat 200!
