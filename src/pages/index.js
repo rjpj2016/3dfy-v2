@@ -11,6 +11,8 @@ OBJLoader(THREE);
 
 const server = "127.0.0.1:8001"
 
+const SERVER_URL = "http://23.95.246.124:8001/"
+
 const imagesLink = [
   "/images/rose.jpg",
   "/images/faucet.jpg",
@@ -109,13 +111,15 @@ export default function Home() {
 
     let loader= new THREE.OBJLoader();
 
+    console.log(respJSON)
+
 
     //scene.current.add(cube)
 
-    loader.load(respJSON.obj,
+    loader.load(SERVER_URL+respJSON.obj,
         (object)=>{
           const textureLoader = new THREE.TextureLoader();
-          const material = new THREE.MeshBasicMaterial({map:textureLoader.load(respJSON.texture)})
+          const material = new THREE.MeshBasicMaterial({map:textureLoader.load(SERVER_URL+respJSON.texture)})
           console.log("Finished loading");
           object.material = material;
 
@@ -153,7 +157,7 @@ export default function Home() {
 
         </div>
         <div style={{width:"100%",overflowY:"scroll",height:"100%"}}>
-          {state.depthmap.links.map( (link,i) => <img key={i} onClick={ () => handleDepthChange(link)} style={{width:"100%"}} src={link} />)}
+          {state.depthmap.links.map( (link,i) => <img key={i} onClick={ () => handleDepthChange(link)} style={{width:"100%"}} src={SERVER_URL+link} />)}
         </div>
       </div>
       <div style={{width:"60%",height:"100%",backgroundColor:"#9be"}}>
