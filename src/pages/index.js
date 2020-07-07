@@ -11,7 +11,8 @@ OBJLoader(THREE);
 
 const server = "127.0.0.1:8001"
 
-const SERVER_URL = "http://23.95.246.124:8001/"
+//const SERVER_URL = "http://23.95.246.124:8001/"
+const SERVER_URL = ""
 
 const imagesLink = [
   "/images/rose.jpg",
@@ -85,7 +86,7 @@ export default function Home() {
     formData.append("image",file)
     formData.append("token","Lmao")
 
-    const resp = await fetch("http://23.95.246.124:8001/api/generateDepths",{
+    const resp = await fetch(SERVER_URL+"/api/generateDepths",{
       method: "POST",
       body: formData,
     })
@@ -102,7 +103,7 @@ export default function Home() {
     formData.append("link",link)
     formData.append("compression",state.compression)
 
-    const resp = await fetch("http://23.95.246.124:8001/api/generateObj",{
+    const resp = await fetch(SERVER_URL+"/api/generateObj",{
       method: "POST",
       body:formData
     })
