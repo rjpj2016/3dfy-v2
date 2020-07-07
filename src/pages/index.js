@@ -11,7 +11,7 @@ OBJLoader(THREE);
 
 const server = "127.0.0.1:8001"
 
-const SERVER_URL = "http://23.95.246.124:8001/"
+const SERVER_URL = "http://23.95.246.124:8001"
 //const SERVER_URL = ""
 
 const imagesLink = [
