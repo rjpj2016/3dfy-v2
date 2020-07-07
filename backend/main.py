@@ -19,6 +19,7 @@ origins = [
     "http://localhost:8080",
     "http://3dfy-v2.netlify.app",
     "https://3dfy-v2.netlify.app",
+    "*"
 ]
 
 app.add_middleware(
