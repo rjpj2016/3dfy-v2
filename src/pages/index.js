@@ -52,10 +52,19 @@ export default function Home() {
     let renderer = new THREE.WebGLRenderer({ alpha: true });
     renderer.setClearColor( 0x99bbee, 1);
 
+    const limitingAngle = 2.5
+
     let controls = new OrbitControls(camera,renderer.domElement);
+    controls.minAzimuthAngle = -limitingAngle * Math.PI/180
+    controls.maxAzimuthAngle = limitingAngle * Math.PI/180
+
+    controls.minPolarAngle = Math.PI/2 - limitingAngle * Math.PI/180
+    controls.maxPolarAngle = Math.PI/2 + limitingAngle * Math.PI/180
 
     camera.position.z = radiusOfCamera;
     camera.position.y = heightOfCamera;
+
+    
 
     renderer.setSize(domRef.offsetWidth, domRef.offsetHeight);
     domRef.appendChild(renderer.domElement);
