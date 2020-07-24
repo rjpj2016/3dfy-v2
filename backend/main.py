@@ -1,4 +1,7 @@
-from fastapi import FastAPI , File, UploadFile, Form
+
+
+
+from fastapi import FastAPI , File, UploadFile, Form,Response
 from fastapi.staticfiles import StaticFiles
 from starlette.responses import RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
@@ -18,13 +21,13 @@ origins = [
     "http://localhost",
     "http://localhost:8080",
     "http://3dfy-v2.netlify.app",
-    "https://3dfy-v2.netlify.app",
+    "https://3dfy-v2.netlify.app","http://ec2-3-85-224-40.compute-1.amazonaws.com"
     "*"
 ]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -49,7 +52,7 @@ def writeObj(verts,faces,texture_verts,fName="~/projects/depth/backend/test.obj"
 app.mount("/uploads",StaticFiles(directory="uploads"),name="uploads")
 
 @app.post("/api/generateDepths")
-def generateDepths(image: UploadFile = File(...), token: str = Form(...)):
+def generateDepths(response:Response, image: UploadFile = File(...), token: str = Form(...)):
     name = uuid.uuid4()
 
     direct = "uploads/{}".format(name)
@@ -62,7 +65,7 @@ def generateDepths(image: UploadFile = File(...), token: str = Form(...)):
 
     img = Image.open(fname)
     h = img.height
-    img = img.rotate(-90,expand=True)
+    #img = img.rotate(-90,expand=True)
     img = img.resize((h,h),Image.ANTIALIAS)
     img.save(direct+"/tex.jpg")
 
@@ -89,12 +92,12 @@ def generateDepths(image: UploadFile = File(...), token: str = Form(...)):
         except Exception as e:
             continue
 
-        img = img.rotate(-90,expand=True)
+        #img = img.rotate(-90,expand=True)
         img.convert("RGB")
         img.save(name)
 
         valid_files.append(name)
-
+    response.headers["Access-Control-Allow-Origin"] = "*"
     return {
         "success":True,
         "depths": valid_files
@@ -111,14 +114,17 @@ def generateObj(link: str = Form(...),compression: int = Form(...)):
     
 
     arr = np.array(img)
-    height , width = arr.shape
+    height , width = arr.shape[:2]
     points = []
 
     for i in range(height):
         for j in range(width):
             x = j - height/2
             y = -i + height/2
-            z = -arr[i][j]
+            try:
+                z = -arr[i][j][0]
+            except IndexError:
+                z = - arr[i][j]
             points.append([x,y,z])
 
 
@@ -164,3 +170,8 @@ def generateObj(link: str = Form(...),compression: int = Form(...)):
         "obj": fname,
         "texture":text_fname
     }
+
+@app.get("/")
+def generateObj(response: Response):
+	response.headers["X-Cat-Dog"] = "alone in the world"
+	return {"Hello":"World"}
